@@ -1,15 +1,17 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import App from './App.tsx'
-import './index.css'
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import './index.css';
 
-import { NextUIProvider } from "@nextui-org/react";
+import { FluentProvider, webLightTheme } from '@fluentui/react-components';
+import { MainPage } from '@/pages/main';
 
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-    <React.StrictMode>
-        <NextUIProvider>
-            <App/>
-        </NextUIProvider>
-    </React.StrictMode>,
-)
+  <React.StrictMode>
+    <FluentProvider theme={
+webLightTheme
+}>
+      <MainPage />
+    </FluentProvider>
+  </React.StrictMode>,
+);
