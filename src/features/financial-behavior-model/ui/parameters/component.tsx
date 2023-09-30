@@ -6,7 +6,7 @@ import { Button } from '@fluentui/react-components';
 import classes from './styles.module.css';
 
 export interface ParametersFormProps {
-  clientId: number;
+  clientId: string;
 }
 
 interface ParametersProps {
@@ -33,7 +33,7 @@ export const Parameters: FC<ParametersProps> = ({ onSubmit }) => {
         required: true,
 
       }}
-      render={({ field }) => (<Input type='number'
+      render={({ field }) => (<Input type='text'
                                      label='Client ID'
                                      field={{ ...field, size: 'large' }} />)}
     />

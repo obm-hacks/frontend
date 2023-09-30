@@ -1,42 +1,59 @@
 import React, { FC } from 'react';
-import { Title1 } from '@fluentui/react-components';
+import { Body2, Subtitle1, Title3 } from '@fluentui/react-components';
 
 import classes from './styles.module.css';
 
 export interface UserInfoProps {
   contributionMoney?: number;
-  contributionPeriod?: number;
+  contributionsNumber?: number;
   isRequestError?: boolean;
 }
 
-export const UserInfo: FC<UserInfoProps> = ({ contributionMoney, contributionPeriod, isRequestError }) => {
+export const UserInfo: FC<UserInfoProps> = ({ contributionMoney, contributionsNumber, isRequestError }) => {
   if (isRequestError) {
     return <div className={classes.wrapper}
                 style={{ color: '#c50f1f' }}>
-      <Title1>No Client Found</Title1>
+      <Title3>No Client Found</Title3>
     </div>;
   }
 
-  if (!contributionMoney || !contributionPeriod) {
+  if (!contributionMoney || !contributionsNumber) {
     return <div className={classes.wrapper}>
-      <Title1>Enter client ID for prediction</Title1>
+      <Title3>Enter client ID for prediction</Title3>
     </div>;
   }
 
 
   return <div className={classes.wrapper}>
-    <Title1>
-      {contributionMoney}
+    <div className={classes.title}>
+      <Title3>
+        Prediction for next quater
+      </Title3>
+    </div>
 
-      {' '}
-      рублей
-    </Title1>
+    <Body2>
+      Contribution money
+      {': '}
 
-    <Title1>
-      {contributionPeriod}
+      <Subtitle1>
+        {contributionMoney}
 
-      {' '}
-      дней
-    </Title1>
+        {' '}
+        ₽
+      </Subtitle1>
+    </Body2>
+
+    <Body2>
+      Contribution count
+      {': '}
+
+      <Subtitle1>
+        {contributionsNumber}
+
+        {' '}
+
+        {contributionsNumber === 1 ? 'time' : 'times'}
+      </Subtitle1>
+    </Body2>
   </div>;
 };

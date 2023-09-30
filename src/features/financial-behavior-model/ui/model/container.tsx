@@ -15,7 +15,7 @@ export const FinancialModel = () => {
   const onSubmit: SubmitHandler<ParametersFormProps> = (form) => {
     setIsRequestError(false);
     axios.post(`${API_URL}/predict`, form).then(({ data }) => {
-      setUserInfo({ contributionMoney: data.param1, contributionPeriod: data.param2 });
+      setUserInfo(data);
     }).catch(() => {
       setIsRequestError(true);
       setTimeout(() => {
