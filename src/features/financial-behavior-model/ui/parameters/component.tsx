@@ -9,7 +9,7 @@ import classes from './styles.module.css';
 interface ParametersFormProps {
   gender: 'Male' | 'Female',
   age: number;
-  birthYear: Date;
+  birthDate: Date;
   postalCode: string;
   isCityInhabitant: boolean;
 }
@@ -30,7 +30,7 @@ export const Parameters: FC<ParametersProps> = (props) => {
     defaultValues: {
       age: undefined,
       postalCode: '',
-      birthYear: new Date(),
+      birthDate: new Date(),
       gender: 'Male',
       isCityInhabitant: false,
     },
@@ -47,16 +47,18 @@ export const Parameters: FC<ParametersProps> = (props) => {
 
       }}
       render={({ field }) => (<Input type='number'
+                                     label='Age'
                                      field={{ ...field, size: 'large' }} />)}
     />
 
     <Controller
       control={control}
-      name='birthYear'
+      name='birthDate'
       rules={{
         required: true,
       }}
       render={({ field }) => (<Input type='date'
+                                     label="Birth Date"
                                      field={{ ...field, size: 'large' }} />)}
     />
 
@@ -69,6 +71,7 @@ export const Parameters: FC<ParametersProps> = (props) => {
       render={({ field }) => (
         <Input
           type='text'
+          label='Postal Code'
           field={{ ...field, size: 'large' }} />)}
     />
 
@@ -79,6 +82,7 @@ export const Parameters: FC<ParametersProps> = (props) => {
         required: true,
       }}
       render={({ field }) => (<Input type='radio'
+                                     label='Gender'
                                      field={{ ...field, options: ['Male', 'Female'] }} />)}
     />
 
@@ -86,7 +90,8 @@ export const Parameters: FC<ParametersProps> = (props) => {
       control={control}
       name='isCityInhabitant'
       render={({ field }) => (<Input type='checkbox'
-                                     field={{ ...field, label: 'isCityInhabitant', size: 'large' }} />)}
+                                     label='isCityInhabitant'
+                                     field={{ ...field, size: 'large' }} />)}
     />
 
     <Button type='submit'

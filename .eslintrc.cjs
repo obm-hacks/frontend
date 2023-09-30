@@ -23,10 +23,11 @@ module.exports = {
     ],
     'react/jsx-uses-react': 'error',
     'react/jsx-uses-vars': 'error',
-    'react/jsx-indent': ['error', 2, {indentLogicalExpressions: true}],
+    'react/jsx-indent': ['error', 2, { indentLogicalExpressions: true }],
     'object-curly-spacing': ['error', 'always'],
     'react/jsx-max-props-per-line': [1],
     'react/jsx-newline': ['error'],
-    'react/jsx-tag-spacing': ['error']
+    'react/jsx-tag-spacing': ['error'],
+    'react/jsx-one-expression-per-line': ['error', { allow: 'literal' }],
   },
 };
