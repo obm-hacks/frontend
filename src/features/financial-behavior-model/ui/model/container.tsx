@@ -1,13 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Parameters } from '../parameters/component';
-import { UserInfo } from '../user-info/component';
+import { UserInfo, UserInfoProps } from '../user-info/component';
 
 import classes from './styles.module.css';
 
 export const FinancialModel = () => {
-  return <div className={classes.wrapper}>
-    <Parameters />
+  const [data, setData] = useState<UserInfoProps>({});
 
-    <UserInfo />
+  const onSubmit = () => {
+    setData({ contributionPeriod: 30, contributionMoney: 1000 });
+  };
+
+  return <div className={classes.wrapper}>
+    <Parameters onSubmit={onSubmit} />
+
+    <UserInfo {...data} />
   </div>;
 };

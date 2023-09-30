@@ -27,7 +27,6 @@ module.exports = {
     'object-curly-spacing': ['error', 'always'],
     'react/jsx-max-props-per-line': [1],
     'react/jsx-newline': ['error'],
-    'react/jsx-one-expression-per-line': ['error'],
     'react/jsx-tag-spacing': ['error']
   },
 };

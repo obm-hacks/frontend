@@ -1,6 +1,9 @@
 import React, { FC } from 'react';
+import { Label } from '@fluentui/react-components';
 
-interface UserInfoProps {
+import classes from './styles.module.css';
+
+export interface UserInfoProps {
   contributionMoney?: number;
   contributionPeriod?: number;
 }
@@ -11,7 +14,13 @@ export const UserInfo: FC<UserInfoProps> = ({ contributionMoney, contributionPer
   }
 
 
-  return <div>
-    User Info
+  return <div className={classes.wrapper}>
+    <Label size='large'>
+      {contributionMoney} рублей
+    </Label>
+
+    <Label size='large'>
+      {contributionPeriod} дней
+    </Label>
   </div>;
 };
