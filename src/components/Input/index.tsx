@@ -10,29 +10,30 @@ import {
 } from '@fluentui/react-components';
 import { DatePicker, DatePickerProps } from '@fluentui/react-datepicker-compat';
 
+type UIInputProps = {
+  label?: string;
+  placeholder?: string;
+  appearance?: FluentInputProps['appearance']
+}
+
 type InputProps = ({
   type: 'text';
-  label?: string;
   field: FluentInputProps
-}) | ({
+}) & UIInputProps | ({
   type: 'number';
-  label?: string;
-  field: Omit<FluentInputProps, 'value' | 'onChange'> & { value: number, onChange?: (data: number) => void }
-}) | ({
+  field: Omit<FluentInputProps, 'value' | 'onChange'> & { value: number | undefined, onChange?: (data: number) => void }
+}) & UIInputProps | ({
   type: 'date',
-  label?: string;
   field: Omit<DatePickerProps, 'onChange'> & { onChange: DatePickerProps['onSelectDate'] }
-}) | {
+}) & UIInputProps | {
   type: 'radio',
-  label?: string;
   field: RadioGroupProps & { options: string[] },
-} | {
+} & UIInputProps | {
   type: 'checkbox',
-  label?: string,
   field: Omit<CheckboxProps, 'value'> & { value: boolean },
-};
+} & UIInputProps;
 
-export const Input: FC<InputProps> = ({ type, field, label }: InputProps) => {
+export const Input: FC<InputProps> = ({ type, field, label, placeholder, appearance }: InputProps) => {
   if (type === 'date') {
     const { onChange, ...rest } = field;
     return <Field label={label}>
@@ -40,6 +41,8 @@ export const Input: FC<InputProps> = ({ type, field, label }: InputProps) => {
         onSelectDate={
           onChange
         }
+        appearance={appearance}
+        placeholder={placeholder}
         {...rest}
       />
     </Field>;
@@ -77,6 +80,8 @@ export const Input: FC<InputProps> = ({ type, field, label }: InputProps) => {
     const { value, onChange, ...rest } = field;
     return <Field label={label}>
       <FluentInput
+        appearance={appearance}
+        placeholder={placeholder}
         type={type}
         value={String(value)}
         onChange={(event) => onChange?.(parseInt(event.target.value, 10))}
@@ -86,6 +91,8 @@ export const Input: FC<InputProps> = ({ type, field, label }: InputProps) => {
 
   return <Field label={label}>
     <FluentInput
+      appearance={appearance}
+      placeholder={placeholder}
       type={type}
       {...field} />
   </Field>;

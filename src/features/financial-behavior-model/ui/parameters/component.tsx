@@ -5,34 +5,21 @@ import { Button } from '@fluentui/react-components';
 
 import classes from './styles.module.css';
 
-
-interface ParametersFormProps {
-  gender: 'Male' | 'Female',
-  age: number;
-  birthDate: Date;
-  postalCode: string;
-  isCityInhabitant: boolean;
+export interface ParametersFormProps {
+  clientId: number;
 }
 
 interface ParametersProps {
-  onSubmit: () => void;
+  onSubmit: SubmitHandler<ParametersFormProps>;
 }
 
-export const Parameters: FC<ParametersProps> = (props) => {
-  const onSubmit: SubmitHandler<ParametersFormProps> = (data) => {
-    console.log(data);
-    props.onSubmit();
-  };
+export const Parameters: FC<ParametersProps> = ({ onSubmit }) => {
   const {
     handleSubmit,
     control,
   } = useForm<ParametersFormProps>({
     defaultValues: {
-      age: undefined,
-      postalCode: '',
-      birthDate: new Date(),
-      gender: 'Male',
-      isCityInhabitant: false,
+      clientId: undefined,
     },
   });
 
@@ -41,56 +28,13 @@ export const Parameters: FC<ParametersProps> = (props) => {
                className={classes.wrapper}>
     <Controller
       control={control}
-      name='age'
+      name='clientId'
       rules={{
         required: true,
 
       }}
       render={({ field }) => (<Input type='number'
-                                     label='Age'
-                                     field={{ ...field, size: 'large' }} />)}
-    />
-
-    <Controller
-      control={control}
-      name='birthDate'
-      rules={{
-        required: true,
-      }}
-      render={({ field }) => (<Input type='date'
-                                     label="Birth Date"
-                                     field={{ ...field, size: 'large' }} />)}
-    />
-
-    <Controller
-      control={control}
-      name='postalCode'
-      rules={{
-        required: true,
-      }}
-      render={({ field }) => (
-        <Input
-          type='text'
-          label='Postal Code'
-          field={{ ...field, size: 'large' }} />)}
-    />
-
-    <Controller
-      control={control}
-      name='gender'
-      rules={{
-        required: true,
-      }}
-      render={({ field }) => (<Input type='radio'
-                                     label='Gender'
-                                     field={{ ...field, options: ['Male', 'Female'] }} />)}
-    />
-
-    <Controller
-      control={control}
-      name='isCityInhabitant'
-      render={({ field }) => (<Input type='checkbox'
-                                     label='isCityInhabitant'
+                                     label='Client ID'
                                      field={{ ...field, size: 'large' }} />)}
     />
 

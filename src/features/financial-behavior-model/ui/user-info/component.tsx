@@ -1,26 +1,42 @@
 import React, { FC } from 'react';
-import { Label } from '@fluentui/react-components';
+import { Title1 } from '@fluentui/react-components';
 
 import classes from './styles.module.css';
 
 export interface UserInfoProps {
   contributionMoney?: number;
   contributionPeriod?: number;
+  isRequestError?: boolean;
 }
 
-export const UserInfo: FC<UserInfoProps> = ({ contributionMoney, contributionPeriod }) => {
+export const UserInfo: FC<UserInfoProps> = ({ contributionMoney, contributionPeriod, isRequestError }) => {
+  if (isRequestError) {
+    return <div className={classes.wrapper}
+                style={{ color: '#c50f1f' }}>
+      <Title1>No Client Found</Title1>
+    </div>;
+  }
+
   if (!contributionMoney || !contributionPeriod) {
-    return null;
+    return <div className={classes.wrapper}>
+      <Title1>Enter client ID for prediction</Title1>
+    </div>;
   }
 
 
   return <div className={classes.wrapper}>
-    <Label size='large'>
-      {contributionMoney} рублей
-    </Label>
+    <Title1>
+      {contributionMoney}
 
-    <Label size='large'>
-      {contributionPeriod} дней
-    </Label>
+      {' '}
+      рублей
+    </Title1>
+
+    <Title1>
+      {contributionPeriod}
+
+      {' '}
+      дней
+    </Title1>
   </div>;
 };
