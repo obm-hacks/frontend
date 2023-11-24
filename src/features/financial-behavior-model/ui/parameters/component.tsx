@@ -6,7 +6,8 @@ import { Button } from '@fluentui/react-components';
 import classes from './styles.module.css';
 
 export interface ParametersFormProps {
-  clientId: string;
+  latitude: string;
+  longitude: string;
 }
 
 interface ParametersProps {
@@ -19,7 +20,8 @@ export const Parameters: FC<ParametersProps> = ({ onSubmit }) => {
     control,
   } = useForm<ParametersFormProps>({
     defaultValues: {
-      clientId: undefined,
+      latitude: undefined,
+      longitude: undefined,
     },
   });
 
@@ -28,14 +30,32 @@ export const Parameters: FC<ParametersProps> = ({ onSubmit }) => {
                className={classes.wrapper}>
     <Controller
       control={control}
-      name='clientId'
+      name='latitude'
       rules={{
         required: true,
-
       }}
       render={({ field }) => (<Input type='text'
-                                     label='Client ID'
-                                     field={{ ...field, size: 'large' }} />)}
+                                     label='Latitude'
+                                     field={{
+                                       ...field,
+                                       size: 'large',
+                                       required: true,
+                                     }} />)}
+    />
+
+    <Controller
+      control={control}
+      name='longitude'
+      rules={{
+        required: true,
+      }}
+      render={({ field }) => (<Input type='text'
+                                     label='Longitude'
+                                     field={{
+                                       ...field,
+                                       size: 'large',
+                                       required: true,
+                                     }} />)}
     />
 
     <Button type='submit'

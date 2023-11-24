@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Parameters, ParametersFormProps } from '../parameters/component';
-import { UserInfo, UserInfoProps } from '../user-info/component';
+import { BuildingInfoProps, BuildingInfo } from '../building-info/component';
 
 import classes from './styles.module.css';
 import axios from 'axios';
@@ -10,14 +10,14 @@ import { SubmitHandler } from 'react-hook-form';
 import { sendCustomMetric } from '@/metrics/sendCustomMetric';
 
 export const FinancialModel = () => {
-  const [userInfo, setUserInfo] = useState<UserInfoProps>({});
+  const [buildingInfo, setBuildingInfo] = useState<BuildingInfoProps>({});
   const [isRequestError, setIsRequestError] = useState(false);
 
   const onSubmit: SubmitHandler<ParametersFormProps> = (form) => {
     sendCustomMetric({ type: 'reachGoal', value: 'predictClick' });
     axios.post(`${API_URL}/predict`, form).then(({ data }) => {
       sendCustomMetric({ type: 'reachGoal', value: 'modelResponse' });
-      setUserInfo(data);
+      setBuildingInfo(data);
     }).catch(() => {
       setIsRequestError(true);
       setTimeout(() => {
@@ -32,7 +32,7 @@ export const FinancialModel = () => {
     <Divider vertical
              className={classes.divider} />
 
-    <UserInfo isRequestError={isRequestError}
-              {...userInfo} />
+    <BuildingInfo isRequestError={isRequestError}
+                  {...buildingInfo} />
   </div>;
 };

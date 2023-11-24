@@ -1,6 +1,6 @@
 # Frontend for Hack
 
-## Financial behavior
+## Building analysis
 
 ## Usage
 ```bash
