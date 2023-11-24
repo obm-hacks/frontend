@@ -16,6 +16,6 @@ export const BuildingInfo: FC<BuildingInfoProps> = ({ isRequestError }) => {
   }
 
   return <div className={classes.wrapper}>
-    <Title3>Enter building coordinates</Title3>
+    <Title3>Enter building coordinates and investment</Title3>
   </div>;
 };

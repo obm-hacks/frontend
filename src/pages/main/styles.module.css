@@ -6,3 +6,15 @@
     align-items: center;
     justify-content: center;
 }
+
+.tabs {
+    position: absolute;
+    top: 10px;
+    left: 0;
+    right: 0;
+    height: 60px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

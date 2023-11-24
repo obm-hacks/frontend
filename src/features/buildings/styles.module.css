@@ -1,0 +1,28 @@
+.map {
+    width: 600px;
+    height: 600px;
+
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.container {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+
+    flex-direction: column;
+
+    gap: 30px;
+}
+
+.select {
+    display: flex;
+    flex-direction: column;
+}
+
+.select_container {
+    position: absolute;
+    left: 20px;
+    top: 70px;
+}

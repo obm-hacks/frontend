@@ -6,6 +6,7 @@ import { Button } from '@fluentui/react-components';
 import classes from './styles.module.css';
 
 export interface ParametersFormProps {
+  investments: number;
   latitude: string;
   longitude: string;
 }
@@ -22,12 +23,28 @@ export const Parameters: FC<ParametersProps> = ({ onSubmit }) => {
     defaultValues: {
       latitude: undefined,
       longitude: undefined,
+      investments: undefined,
     },
   });
 
 
   return <form onSubmit={handleSubmit(onSubmit)}
                className={classes.wrapper}>
+    <Controller
+      control={control}
+      name='investments'
+      rules={{
+        required: true,
+      }}
+      render={({ field }) => (<Input type='number'
+                                     label='Investments'
+                                     field={{
+                                       ...field,
+                                       size: 'large',
+                                       required: true,
+                                     }} />)}
+    />
+
     <Controller
       control={control}
       name='latitude'

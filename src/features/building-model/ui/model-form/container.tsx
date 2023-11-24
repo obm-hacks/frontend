@@ -7,16 +7,13 @@ import axios from 'axios';
 import { API_URL } from '@/constants';
 import { Divider } from '@fluentui/react-components';
 import { SubmitHandler } from 'react-hook-form';
-import { sendCustomMetric } from '@/metrics/sendCustomMetric';
 
-export const FinancialModel = () => {
+export const BuildingModelForm = () => {
   const [buildingInfo, setBuildingInfo] = useState<BuildingInfoProps>({});
   const [isRequestError, setIsRequestError] = useState(false);
 
   const onSubmit: SubmitHandler<ParametersFormProps> = (form) => {
-    sendCustomMetric({ type: 'reachGoal', value: 'predictClick' });
-    axios.post(`${API_URL}/predict`, form).then(({ data }) => {
-      sendCustomMetric({ type: 'reachGoal', value: 'modelResponse' });
+    axios.post(`${API_URL}/buildings`, form).then(({ data }) => {
       setBuildingInfo(data);
     }).catch(() => {
       setIsRequestError(true);
@@ -25,6 +22,7 @@ export const FinancialModel = () => {
       }, 3000);
     });
   };
+
 
   return <div className={classes.wrapper}>
     <Parameters onSubmit={onSubmit} />

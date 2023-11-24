@@ -1,0 +1,139 @@
+import React from 'react';
+
+import { BuildingMetaInfo } from '@/types';
+import {
+  createTableColumn,
+  DataGrid, DataGridBody, DataGridCell,
+  DataGridHeader, DataGridHeaderCell, DataGridRow,
+  TableCellLayout,
+  TableColumnDefinition, TableRowId,
+} from '@fluentui/react-components';
+
+import classes from './styles.module.css';
+
+interface TableProps {
+  buildingsMeta: BuildingMetaInfo[];
+}
+
+const columns: TableColumnDefinition<BuildingMetaInfo>[] = [
+  createTableColumn<BuildingMetaInfo>({
+    columnId: 'geocoderAddress',
+    compare: (a, b) => {
+      return a.geocoderAddress.localeCompare(b.geocoderAddress);
+    },
+    renderHeaderCell: () => {
+      return 'Address';
+    },
+    renderCell: (item) => {
+      return (
+        <TableCellLayout>
+          {item.geocoderAddress}
+        </TableCellLayout>
+      );
+    },
+  }),
+  createTableColumn<BuildingMetaInfo>({
+    columnId: 'technicalConditions',
+    renderHeaderCell: () => {
+      return 'Technical Conditions';
+    },
+    renderCell: (item) => {
+      return (
+        <TableCellLayout>
+          {item.technicalConditions}
+        </TableCellLayout>
+      );
+    },
+  }),
+  createTableColumn<BuildingMetaInfo>({
+    columnId: 'buildingSquare',
+    compare: (a, b) => {
+      return a.buildingSquare - b.buildingSquare;
+    },
+    renderHeaderCell: () => {
+      return 'Square';
+    },
+    renderCell: (item) => {
+      return (
+        <TableCellLayout>
+          {item.buildingSquare}
+        </TableCellLayout>
+      );
+    },
+  }),
+  createTableColumn<BuildingMetaInfo>({
+    columnId: 'buildingAge',
+    compare: (a, b) => {
+      return a.buildingAge - b.buildingAge;
+    },
+    renderHeaderCell: () => {
+      return 'Age';
+    },
+    renderCell: (item) => {
+      return (
+        <TableCellLayout>
+          {item.buildingAge}
+
+          {' '}
+          years
+        </TableCellLayout>
+      );
+    },
+  }),
+  createTableColumn<BuildingMetaInfo>({
+    columnId: 'prediction',
+    compare: (a, b) => {
+      return a.prediction - b.prediction;
+    },
+    renderHeaderCell: () => {
+      return 'prediction';
+    },
+    renderCell: (item) => {
+      return (
+        <TableCellLayout>
+          {item.prediction}
+        </TableCellLayout>
+      );
+    },
+  }),
+];
+
+export const Table = ({ buildingsMeta }: TableProps) => {
+  const [selectedRows, setSelectedRows] = React.useState(
+    new Set<TableRowId>([1])
+  );
+
+  return <DataGrid
+    items={buildingsMeta}
+    columns={columns}
+    sortable
+    getRowId={(item) => item.geocoderAddress}
+    selectedItems={selectedRows}
+    onSelectionChange={(_, data) => setSelectedRows(data.selectedItems)}
+    selectionMode="single"
+  >
+    <DataGridHeader>
+      <DataGridRow>
+        {({ renderHeaderCell }) => (
+          <DataGridHeaderCell className={classes.header}>
+            {renderHeaderCell()}
+          </DataGridHeaderCell>
+        )}
+      </DataGridRow>
+    </DataGridHeader>
+
+    <DataGridBody<BuildingMetaInfo>>
+      {({ item, rowId }) => (
+        <DataGridRow<BuildingMetaInfo>
+          key={rowId}
+        >
+          {({ renderCell }) => (
+            <DataGridCell>
+              {renderCell(item)}
+            </DataGridCell>
+          )}
+        </DataGridRow>
+      )}
+    </DataGridBody>
+  </DataGrid>;
+};

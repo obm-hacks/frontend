@@ -21,9 +21,15 @@
     "noFallthroughCasesInSwitch": true,
     "types": ["node"],
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "ymaps3": [
+        "./node_modules/@yandex/ymaps3-types"
+      ]
     }
   },
+  "typeRoots": [
+    "./node_modules/@yandex/ymaps3-types"
+  ],
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

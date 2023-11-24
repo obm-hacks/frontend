@@ -5,15 +5,21 @@ import './index.css';
 import { FluentProvider, webLightTheme } from '@fluentui/react-components';
 import { MainPage } from '@/pages/main';
 import { initMetrics } from '@/metrics/init';
+import { QueryClient, QueryClientProvider } from 'react-query';
+
+
+const queryClient = new QueryClient();
 
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <FluentProvider theme={
-      webLightTheme
-    }>
-      <MainPage />
-    </FluentProvider>
+    <QueryClientProvider client={queryClient}>
+      <FluentProvider theme={
+        webLightTheme
+      }>
+          <MainPage />
+      </FluentProvider>
+    </QueryClientProvider>
   </React.StrictMode>,
 );
 
