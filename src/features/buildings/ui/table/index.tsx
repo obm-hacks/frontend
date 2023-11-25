@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 
 import { BuildingMetaInfo } from '@/types';
 import {
   createTableColumn,
   DataGrid, DataGridBody, DataGridCell,
-  DataGridHeader, DataGridHeaderCell, DataGridRow,
+  DataGridHeader, DataGridHeaderCell, DataGridRow, OnSelectionChangeData,
   TableCellLayout,
   TableColumnDefinition, TableRowId,
 } from '@fluentui/react-components';
@@ -13,6 +13,8 @@ import classes from './styles.module.css';
 
 interface TableProps {
   buildingsMeta: BuildingMetaInfo[];
+  onBuildingSelect: (id: string) => void;
+  buildingId: string;
 }
 
 const columns: TableColumnDefinition<BuildingMetaInfo>[] = [
@@ -81,7 +83,7 @@ const columns: TableColumnDefinition<BuildingMetaInfo>[] = [
     },
   }),
   createTableColumn<BuildingMetaInfo>({
-    columnId: 'prediction',
+    columnId: 'Prediction',
     compare: (a, b) => {
       return a.prediction - b.prediction;
     },
@@ -98,10 +100,16 @@ const columns: TableColumnDefinition<BuildingMetaInfo>[] = [
   }),
 ];
 
-export const Table = ({ buildingsMeta }: TableProps) => {
-  const [selectedRows, setSelectedRows] = React.useState(
-    new Set<TableRowId>([1])
+export const Table = ({ buildingsMeta, onBuildingSelect, buildingId }: TableProps) => {
+  const [selectedRows, setSelectedRows] = React.useState<TableRowId[]>(
+    [buildingId],
   );
+
+  const onSelectionChange = useCallback((_: unknown, data: OnSelectionChangeData) => {
+    const selectedArray = [...data.selectedItems] as string[];
+    setSelectedRows(selectedArray);
+    onBuildingSelect(selectedArray[0]);
+  }, [onBuildingSelect]);
 
   return <DataGrid
     items={buildingsMeta}
@@ -109,8 +117,8 @@ export const Table = ({ buildingsMeta }: TableProps) => {
     sortable
     getRowId={(item) => item.geocoderAddress}
     selectedItems={selectedRows}
-    onSelectionChange={(_, data) => setSelectedRows(data.selectedItems)}
-    selectionMode="single"
+    onSelectionChange={onSelectionChange}
+    selectionMode='single'
   >
     <DataGridHeader>
       <DataGridRow>

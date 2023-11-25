@@ -1,6 +1,6 @@
 .map {
-    width: 600px;
-    height: 600px;
+    width: 450px;
+    height: 450px;
 
     border-radius: 15px;
     overflow: hidden;
@@ -8,10 +8,8 @@
 
 .container {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     justify-content: center;
-
-    flex-direction: column;
 
     gap: 30px;
 }
@@ -24,5 +22,20 @@
 .select_container {
     position: absolute;
     left: 20px;
-    top: 70px;
+    top: 170px;
+}
+
+.table_container {
+    min-width: 600px;
+}
+
+.building_title {
+    position: absolute;
+    top: 170px;
+    left: 0;
+    right: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

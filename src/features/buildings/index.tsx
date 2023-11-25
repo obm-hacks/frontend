@@ -8,21 +8,25 @@ import { API_URL } from '@/constants';
 import { YandexMap } from './ui/yandex-map';
 
 import classes from './styles.module.css';
-import {  Select, Title3 } from '@fluentui/react-components';
+import { Select, Title2, Title3 } from '@fluentui/react-components';
 import { Table } from '@/features/buildings/ui/table';
+import { BuildingGraphs } from '@/features/building-graphs';
 
 export const Buildings = () => {
-  const [view, setView] = useState<'Map' | 'Table'>('Table');
+  const [view, setView] = useState<'Map' | 'Table'>('Map');
   const selectId = useId();
-  const { data, isError, isLoading } = useQuery('buildings', () =>
-    axios.get<BuildingMetaInfo[]>(`${API_URL}/buildings`).then(({ data }) => data),
+  const [buildingId, setBuildingId] = useState<string | undefined>();
+  const { data, isError, isLoading } = useQuery(
+    'buildings',
+    () => axios.get<BuildingMetaInfo[]>(`${API_URL}/buildings`).then(({ data }) => data),
   );
+
 
   if (isLoading) {
     return <Title3>Loading...</Title3>;
   }
 
-  if (isError) {
+  if (isError || !data) {
     return <Title3>Error while loading buildings info</Title3>;
   }
 
@@ -40,14 +44,29 @@ export const Buildings = () => {
       </Select>
     </div>
 
+    {buildingId && <div className={classes.building_title}>
+      <Title2>
+        {buildingId}
+      </Title2>
+    </div>}
+
     {view === 'Map' ?
       (<div className={classes.map}>
-        <YandexMap buildingsMeta={data!} />
+        <YandexMap
+          buildingId={buildingId || ''}
+          buildingsMeta={data}
+          onBuildingSelect={setBuildingId} />
       </div>) :
-      <Table buildingsMeta={data!} />
+      <div className={classes.table_container}>
+        <Table
+          buildingId={buildingId || ''}
+          buildingsMeta={data}
+          onBuildingSelect={setBuildingId}
+        />
+      </div>
     }
 
+    <BuildingGraphs id={buildingId} />
+
   </div>;
-
-
 };
