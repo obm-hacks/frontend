@@ -70,5 +70,8 @@ button:focus-visible {
 
 * {
   outline: none !important;
-  overflow-x: hidden;
+}
+
+.fui-DataGridBody > div {
+  overflow-x: hidden !important;
 }

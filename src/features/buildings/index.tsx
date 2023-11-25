@@ -18,7 +18,7 @@ type BuildingsProps = {
 }
 
 export const Buildings = ({ buildingId, onBuildingIdChange }: BuildingsProps) => {
-  const [view, setView] = useState<'Map' | 'Table'>('Table');
+  const [view, setView] = useState<'Map' | 'Table'>('Map');
   const selectId = useId();
   const { data, isError, isLoading } = useQuery(
     'buildings',
