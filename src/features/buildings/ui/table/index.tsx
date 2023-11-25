@@ -58,7 +58,7 @@ const columns: TableColumnDefinition<BuildingMetaInfo>[] = [
     renderCell: (item) => {
       return (
         <TableCellLayout>
-          {item.buildingSquare}
+          {`${item.buildingSquare} ㎡`}
         </TableCellLayout>
       );
     },
@@ -93,7 +93,7 @@ const columns: TableColumnDefinition<BuildingMetaInfo>[] = [
     renderCell: (item) => {
       return (
         <TableCellLayout>
-          {item.prediction}
+          {`${item.prediction} ₽`}
         </TableCellLayout>
       );
     },
@@ -112,6 +112,7 @@ export const Table = ({ buildingsMeta, onBuildingSelect, buildingId }: TableProp
   }, [onBuildingSelect]);
 
   return <DataGrid
+    className={classes.table}
     items={buildingsMeta}
     columns={columns}
     sortable

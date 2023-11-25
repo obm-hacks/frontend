@@ -1,3 +1,7 @@
 .header {
     font-weight: bold !important;
 }
+
+.table {
+    max-height: 450px;
+}
