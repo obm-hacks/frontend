@@ -70,4 +70,5 @@ button:focus-visible {
 
 * {
   outline: none !important;
+  overflow-x: hidden;
 }

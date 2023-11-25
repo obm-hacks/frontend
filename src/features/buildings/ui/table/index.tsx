@@ -46,7 +46,7 @@ const columns: TableColumnDefinition<BuildingMetaInfo>[] = [
     renderCell: (item) => {
       return (
         <TableCellLayout>
-          {item.technicalConditions}
+          {item.technicalConditions && item.technicalConditions}
         </TableCellLayout>
       );
     },
@@ -62,7 +62,7 @@ const columns: TableColumnDefinition<BuildingMetaInfo>[] = [
     renderCell: (item) => {
       return (
         <TableCellLayout>
-          {`${item.buildingSquare} ㎡`}
+          {item.buildingSquare && `${item.buildingSquare} ㎡`}
         </TableCellLayout>
       );
     },
@@ -78,10 +78,7 @@ const columns: TableColumnDefinition<BuildingMetaInfo>[] = [
     renderCell: (item) => {
       return (
         <TableCellLayout>
-          {item.buildingAge}
-
-          {' '}
-          years
+          {item.buildingAge && `${item.buildingAge} years`}
         </TableCellLayout>
       );
     },
@@ -97,7 +94,7 @@ const columns: TableColumnDefinition<BuildingMetaInfo>[] = [
     renderCell: (item) => {
       return (
         <TableCellLayout>
-          {`${item.krValue} ₽`}
+          {item.krValue && `${item.krValue.toLocaleString('en')} ₽`}
         </TableCellLayout>
       );
     },
@@ -113,7 +110,7 @@ const columns: TableColumnDefinition<BuildingMetaInfo>[] = [
     renderCell: (item) => {
       return (
         <TableCellLayout>
-          {`${item.ksValue} ₽`}
+          {item.ksValue && `${item.ksValue.toLocaleString('en')} ₽`}
         </TableCellLayout>
       );
     },
@@ -129,7 +126,7 @@ const columns: TableColumnDefinition<BuildingMetaInfo>[] = [
     renderCell: (item) => {
       return (
         <TableCellLayout>
-          {`${item.trValue} ₽`}
+          {item.trValue && `${item.trValue.toLocaleString('en')} ₽`}
         </TableCellLayout>
       );
     },
@@ -145,7 +142,7 @@ const columns: TableColumnDefinition<BuildingMetaInfo>[] = [
     renderCell: (item) => {
       return (
         <TableCellLayout>
-          {`${item.residualValue} ₽`}
+          {item.residualValue && `${item.residualValue} ₽`}
         </TableCellLayout>
       );
     },
@@ -161,7 +158,7 @@ const columns: TableColumnDefinition<BuildingMetaInfo>[] = [
     renderCell: (item) => {
       return (
         <TableCellLayout>
-          {`${item.balanceValue} ₽`}
+          {item.balanceValue && `${item.balanceValue} ₽`}
         </TableCellLayout>
       );
     },
@@ -176,6 +173,22 @@ const renderRow: RowRenderer<BuildingMetaInfo> = ({ item, rowId }, style) => (
     </DataGridCell>}
   </DataGridRow>
 );
+
+const columnSizingOptions = {
+  geocoderAddress: {
+    minWidth: 250,
+    defaultWidth: 250,
+  },
+  technicalConditions: {
+    minWidth: 170,
+    defaultWidth: 170,
+  },
+
+  balanceValue: {
+    minWidth: 170,
+    defaultWidth: 170,
+  },
+};
 
 export const Table = ({ buildingsMeta, onBuildingSelect, buildingId }: TableProps) => {
   const { targetDocument } = useFluent();
@@ -199,6 +212,8 @@ export const Table = ({ buildingsMeta, onBuildingSelect, buildingId }: TableProp
     selectedItems={selectedRows}
     onSelectionChange={onSelectionChange}
     selectionMode='single'
+    resizableColumns
+    columnSizingOptions={columnSizingOptions}
   >
     <DataGridHeader style={{ paddingRight: scrollbarWidth }}>
       <DataGridRow>
@@ -210,7 +225,7 @@ export const Table = ({ buildingsMeta, onBuildingSelect, buildingId }: TableProp
       </DataGridRow>
     </DataGridHeader>
 
-    <DataGridBody<BuildingMetaInfo> itemSize={50} height={400}>
+    <DataGridBody<BuildingMetaInfo> itemSize={100} height={400} >
       {renderRow}
     </DataGridBody>
   </DataGrid>;

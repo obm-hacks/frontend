@@ -28,7 +28,10 @@ export const BuildingGraphsContainer = ({ buildingInfo, currentChart }: Building
   const predictionChartData = useMemo<ILineChartPoints[]>(() => [{
     legend: 'prediction',
     legendShape,
-    data: buildingInfo.map<ILineChartDataPoint>(({ prediction, date }) => ({
+    data: buildingInfo.filter(({ prediction }) => !!prediction).map<ILineChartDataPoint>(({
+                                                                                            prediction,
+                                                                                            date,
+                                                                                          }) => ({
       x: new Date(date),
       y: prediction,
       xAxisCalloutData: new Date(date).toDateString(),
@@ -39,7 +42,7 @@ export const BuildingGraphsContainer = ({ buildingInfo, currentChart }: Building
   const weatherChartData = useMemo<ILineChartPoints[]>(() => [{
     legend: 'min',
     legendShape,
-    data: buildingInfo.map<ILineChartDataPoint>(({ date, weatherMin }) => ({
+    data: buildingInfo.filter(({ weatherMin }) => !!weatherMin).map<ILineChartDataPoint>(({ date, weatherMin }) => ({
       x: new Date(date),
       y: weatherMin,
       xAxisCalloutData: new Date(date).toDateString(),
@@ -49,7 +52,7 @@ export const BuildingGraphsContainer = ({ buildingInfo, currentChart }: Building
   }, {
     legend: 'avg',
     legendShape,
-    data: buildingInfo.map<ILineChartDataPoint>(({ date, weatherAvg }) => ({
+    data: buildingInfo.filter(({ weatherAvg }) => !!weatherAvg).map<ILineChartDataPoint>(({ date, weatherAvg }) => ({
       x: new Date(date), y: weatherAvg,
       xAxisCalloutData: new Date(date).toDateString(),
       yAxisCalloutData: `${weatherAvg.toLocaleString('en')} °C`,
@@ -58,7 +61,7 @@ export const BuildingGraphsContainer = ({ buildingInfo, currentChart }: Building
     {
       legend: 'max',
       legendShape,
-      data: buildingInfo.map<ILineChartDataPoint>(({ date, weatherMax }) => ({
+      data: buildingInfo.filter(({ weatherMax }) => !!weatherMax).map<ILineChartDataPoint>(({ date, weatherMax }) => ({
         x: new Date(date), y: weatherMax,
         xAxisCalloutData: new Date(date).toDateString(),
 
@@ -70,14 +73,16 @@ export const BuildingGraphsContainer = ({ buildingInfo, currentChart }: Building
   const precipitationChartData = useMemo<ILineChartPoints[]>(() => [{
     legend: 'precipitation',
     legendShape,
-    data: buildingInfo.map<ILineChartDataPoint>(({ precipitation, date }) => ({
+    data: buildingInfo.filter(({ precipitation }) => !!precipitation).map<ILineChartDataPoint>(({
+                                                                                                  precipitation,
+                                                                                                  date,
+                                                                                                }) => ({
       x: new Date(date),
       y: precipitation,
       xAxisCalloutData: new Date(date).toDateString(),
       yAxisCalloutData: `${precipitation.toLocaleString('en')} mm`,
     })),
   }], [buildingInfo]);
-
 
 
   const chartData: ChartData [] = [{
@@ -94,11 +99,14 @@ export const BuildingGraphsContainer = ({ buildingInfo, currentChart }: Building
 
   const { Chart, lineChartData } = chartData[currentChart];
 
+  const yMinValue = Math.min(...lineChartData.map(({ data }) => Math.min(...data.map(({ y }) => y))));
+
 
   return <Chart
     tickFormat='%b %Y'
     xAxisTickCount={3}
     enabledLegendsWrapLines
+    yMinValue={yMinValue > 0 ? 0 : yMinValue}
     width={700}
     data={{
       lineChartData,

@@ -27,6 +27,24 @@ const chartMeta: ChartMeta[] = [{
   name: 'Precipitation',
 }];
 
+type GetCardText = {
+  isLoading: boolean;
+  isError: boolean;
+  emptyText: string;
+}
+
+const getCardText = ({ isLoading, emptyText, isError }: GetCardText): string => {
+  if (isLoading) {
+    return 'Loading...';
+  }
+
+  if (isError) {
+    return 'No data found';
+  }
+
+  return emptyText;
+};
+
 export const BuildingGraphs = ({ isLoading, data, isError, emptyText }: BuildingGraphsProps) => {
   const [currentChart, setCurrentChart] = useState<number>(0);
   const onNextButtonClick = () => {
@@ -36,15 +54,6 @@ export const BuildingGraphs = ({ isLoading, data, isError, emptyText }: Building
   const onPrevButtonClick = () => {
     setCurrentChart(prevState => (prevState - 1) % chartMeta.length);
   };
-
-
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
-  if (isError) {
-    return <div>An error occurred while building by id request</div>;
-  }
 
   return <div className={classes.container}>
     <Card className={classes.card}>
@@ -63,7 +72,9 @@ export const BuildingGraphs = ({ isLoading, data, isError, emptyText }: Building
             buildingInfo={data}
             currentChart={currentChart} />
           : <div className={classes.card_emptyText}>
-            <Title3>{emptyText}</Title3>
+            <Title3>
+              {getCardText({ emptyText, isError, isLoading })}
+            </Title3>
           </div>}
       </CardPreview>
 

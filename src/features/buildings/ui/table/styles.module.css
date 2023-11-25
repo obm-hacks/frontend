@@ -5,3 +5,7 @@
 .table {
     max-height: 450px;
 }
+
+.fui-DataGridBody > div {
+    overflow-x: hidden !important;
+}

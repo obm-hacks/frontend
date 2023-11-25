@@ -12,9 +12,9 @@ interface YandexMapProps {
 }
 
 export const YandexMap = ({ buildingsMeta, onBuildingSelect, buildingId }: YandexMapProps) => {
-  return <YMaps>
+  return <YMaps query={{ apikey: '5091a209-95f3-4dd4-a66d-b271fbb83f47' }}>
     <Map
-      defaultState={{ center: [buildingsMeta[0].latitude, buildingsMeta[0].longitude], zoom: 12 }}
+      defaultState={{ center: [53.595724, 142.957607], zoom: 4 }}
       className={classes.map_container}
     >
 
