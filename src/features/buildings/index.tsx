@@ -12,10 +12,14 @@ import { Select, Title2, Title3 } from '@fluentui/react-components';
 import { Table } from '@/features/buildings/ui/table';
 import { BuildingGraphs } from '@/features/building-graphs';
 
-export const Buildings = () => {
+type BuildingsProps = {
+  buildingId: string;
+  onBuildingIdChange: (id: string) => void;
+}
+
+export const Buildings = ({ buildingId, onBuildingIdChange }: BuildingsProps) => {
   const [view, setView] = useState<'Map' | 'Table'>('Map');
   const selectId = useId();
-  const [buildingId, setBuildingId] = useState<string | undefined>();
   const { data, isError, isLoading } = useQuery(
     'buildings',
     () => axios.get<BuildingMetaInfo[]>(`${API_URL}/buildings`).then(({ data }) => data),
@@ -53,15 +57,15 @@ export const Buildings = () => {
     {view === 'Map' ?
       (<div className={classes.map}>
         <YandexMap
-          buildingId={buildingId || ''}
+          buildingId={buildingId}
           buildingsMeta={data}
-          onBuildingSelect={setBuildingId} />
+          onBuildingSelect={onBuildingIdChange} />
       </div>) :
       <div className={classes.table_container}>
         <Table
-          buildingId={buildingId || ''}
+          buildingId={buildingId}
           buildingsMeta={data}
-          onBuildingSelect={setBuildingId}
+          onBuildingSelect={onBuildingIdChange}
         />
       </div>
     }

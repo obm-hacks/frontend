@@ -8,9 +8,14 @@ import { API_URL } from '@/constants';
 import { Divider } from '@fluentui/react-components';
 import { SubmitHandler } from 'react-hook-form';
 
-export const BuildingModelForm = () => {
+type BuildingModelFormProps = {
+  buildingId: string;
+}
+
+export const BuildingModelForm = ({ buildingId }: BuildingModelFormProps) => {
   const [buildingInfo, setBuildingInfo] = useState<BuildingInfoProps>({});
   const [isRequestError, setIsRequestError] = useState(false);
+
 
   const onSubmit: SubmitHandler<ParametersFormProps> = (form) => {
     axios.post(`${API_URL}/buildings`, form).then(({ data }) => {
@@ -25,7 +30,7 @@ export const BuildingModelForm = () => {
 
 
   return <div className={classes.wrapper}>
-    <Parameters onSubmit={onSubmit} />
+    <Parameters onSubmit={onSubmit} buildingId={buildingId} />
 
     <Divider vertical
              className={classes.divider} />

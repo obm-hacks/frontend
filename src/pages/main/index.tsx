@@ -8,6 +8,9 @@ import { Buildings } from '@/features/buildings';
 
 export const MainPage = () => {
   const [currentTab, setCurrentTab] = useState<TabValue>('buildings');
+  const [buildingId, setBuildingId] = useState<string>('');
+
+
   return <div className={classes.wrapper}>
     <div className={classes.tabs}>
       <TabList
@@ -17,16 +20,14 @@ export const MainPage = () => {
 
         <Tab value='buildings'>Buildings</Tab>
 
-
         <Tab value='form'>Predict</Tab>
 
       </TabList>
     </div>
 
-    {currentTab === 'form' && <BuildingModelForm />}
+    {currentTab === 'form' && <BuildingModelForm buildingId={buildingId} />}
 
-    {currentTab === 'buildings' && <Buildings />}
-
+    {currentTab === 'buildings' && <Buildings buildingId={buildingId} onBuildingIdChange={setBuildingId} />}
 
 
   </div>;

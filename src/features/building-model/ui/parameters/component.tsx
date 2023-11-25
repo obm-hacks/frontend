@@ -4,6 +4,10 @@ import { Input } from '@/components/Input';
 import { Button } from '@fluentui/react-components';
 
 import classes from './styles.module.css';
+import { useQuery } from 'react-query';
+import axios from 'axios';
+import { BuildingMetaInfo } from '@/types';
+import { API_URL } from '@/constants';
 
 export interface ParametersFormProps {
   investments: number;
@@ -13,16 +17,24 @@ export interface ParametersFormProps {
 
 interface ParametersProps {
   onSubmit: SubmitHandler<ParametersFormProps>;
+  buildingId: string;
 }
 
-export const Parameters: FC<ParametersProps> = ({ onSubmit }) => {
+export const Parameters: FC<ParametersProps> = ({ onSubmit, buildingId }) => {
+  const { data } = useQuery(
+    'buildings',
+    () => axios.get<BuildingMetaInfo[]>(`${API_URL}/buildings`).then(({ data }) => data),
+  );
+
+  const buildingMetaInfo = data?.find?.(({ geocoderAddress }) => geocoderAddress === buildingId);
+
   const {
     handleSubmit,
     control,
   } = useForm<ParametersFormProps>({
     defaultValues: {
-      latitude: undefined,
-      longitude: undefined,
+      latitude: buildingMetaInfo?.latitude?.toString?.(),
+      longitude: buildingMetaInfo?.longitude?.toString?.(),
       investments: undefined,
     },
   });
