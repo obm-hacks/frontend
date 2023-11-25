@@ -6,4 +6,9 @@ export type BuildingMetaInfo = {
   buildingAge: number;
   buildingSquare: number;
   technicalConditions: string;
+  krValue: number;
+  ksValue: number;
+  trValue: number;
+  residualValue: number;
+  balanceValue: number;
 };

@@ -1,8 +1,11 @@
 .wrapper {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 2px;
 
     min-width: 380px;
     width: 30vw;
+}
+.button {
+    margin-top: 20px !important;
 }

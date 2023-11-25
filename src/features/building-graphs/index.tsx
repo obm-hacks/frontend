@@ -1,9 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
-import { useQuery } from 'react-query';
-import axios from 'axios';
-import { BuildingInfo } from '@/types';
-import { API_URL } from '@/constants';
+import { TBuildingInfo } from '@/types';
 import { BuildingGraphsContainer } from '@/containers/BuildingGraphsContainer';
 import { Body1, Button, Card, CardFooter, CardHeader, CardPreview, Title3 } from '@fluentui/react-components';
 import { ArrowLeftFilled, ArrowRightFilled } from '@fluentui/react-icons';
@@ -12,7 +9,10 @@ import classes from './styles.module.css';
 
 
 type BuildingGraphsProps = {
-  id?: string;
+  isLoading: boolean;
+  isError: boolean;
+  data?: TBuildingInfo[];
+  emptyText: string;
 }
 
 type ChartMeta = {
@@ -27,7 +27,7 @@ const chartMeta: ChartMeta[] = [{
   name: 'Precipitation',
 }];
 
-export const BuildingGraphs = ({ id }: BuildingGraphsProps) => {
+export const BuildingGraphs = ({ isLoading, data, isError, emptyText }: BuildingGraphsProps) => {
   const [currentChart, setCurrentChart] = useState<number>(0);
   const onNextButtonClick = () => {
     setCurrentChart(prevState => (prevState + 1) % chartMeta.length);
@@ -36,18 +36,7 @@ export const BuildingGraphs = ({ id }: BuildingGraphsProps) => {
   const onPrevButtonClick = () => {
     setCurrentChart(prevState => (prevState - 1) % chartMeta.length);
   };
-  const { isLoading, isError, data, refetch } = useQuery({
-      queryKey: ['building', id],
-      queryFn: () => axios.get<BuildingInfo[]>(`${API_URL}/buildings/${id}`).then(({ data }) => data),
-      enabled: false,
-    },
-  );
 
-  useEffect(() => {
-    if (id) {
-      refetch();
-    }
-  }, [id]);
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -63,7 +52,7 @@ export const BuildingGraphs = ({ id }: BuildingGraphsProps) => {
         header={
           <Body1>
             <b>
-              {id ? chartMeta[currentChart].name : ''}
+              {data ? chartMeta[currentChart].name : ''}
             </b>
           </Body1>
         }
@@ -74,20 +63,20 @@ export const BuildingGraphs = ({ id }: BuildingGraphsProps) => {
             buildingInfo={data}
             currentChart={currentChart} />
           : <div className={classes.card_emptyText}>
-            <Title3>Choose building</Title3>
+            <Title3>{emptyText}</Title3>
           </div>}
       </CardPreview>
 
       <CardFooter>
         <Button
-          disabled={!id || currentChart === 0}
+          disabled={!data || currentChart === 0}
           icon={<ArrowLeftFilled fontSize={16} />}
           onClick={onPrevButtonClick}>
           Previous
         </Button>
 
         <Button
-          disabled={!id || currentChart === chartMeta.length - 1}
+          disabled={!data || currentChart === chartMeta.length - 1}
           icon={<ArrowRightFilled fontSize={16} />}
           iconPosition='after'
           onClick={onNextButtonClick}>

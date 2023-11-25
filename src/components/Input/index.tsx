@@ -36,7 +36,7 @@ type InputProps = ({
 export const Input: FC<InputProps> = ({ type, field, label, placeholder, appearance }: InputProps) => {
   if (type === 'date') {
     const { onChange, ...rest } = field;
-    return <Field label={label}>
+    return <Field label={label} required={field.required}>
       <DatePicker
         onSelectDate={
           onChange
@@ -50,7 +50,7 @@ export const Input: FC<InputProps> = ({ type, field, label, placeholder, appeara
 
   if (type === 'radio') {
     const { options, ...rest } = field;
-    return <Field label={label}>
+    return <Field label={label} required={field.required}>
       <RadioGroup
         id={field.name}
         layout='horizontal'
@@ -78,7 +78,7 @@ export const Input: FC<InputProps> = ({ type, field, label, placeholder, appeara
 
   if (type === 'number') {
     const { value, onChange, ...rest } = field;
-    return <Field label={label}>
+    return <Field label={label} required={rest.required}>
       <FluentInput
         appearance={appearance}
         placeholder={placeholder}
@@ -89,7 +89,7 @@ export const Input: FC<InputProps> = ({ type, field, label, placeholder, appeara
     </Field>;
   }
 
-  return <Field label={label}>
+  return <Field label={label}  required={field.required}>
     <FluentInput
       appearance={appearance}
       placeholder={placeholder}

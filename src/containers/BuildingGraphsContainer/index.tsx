@@ -1,4 +1,4 @@
-import { BuildingInfo } from '@/types';
+import { TBuildingInfo } from '@/types';
 import React, { useMemo } from 'react';
 
 import {
@@ -12,7 +12,7 @@ import {
 
 
 type BuildingGraphsComponentProps = {
-  buildingInfo: BuildingInfo[];
+  buildingInfo: TBuildingInfo[];
   currentChart: number;
 }
 
@@ -39,30 +39,30 @@ export const BuildingGraphsContainer = ({ buildingInfo, currentChart }: Building
   const weatherChartData = useMemo<ILineChartPoints[]>(() => [{
     legend: 'min',
     legendShape,
-    data: buildingInfo.map<ILineChartDataPoint>(({ date, weather: { min } }) => ({
+    data: buildingInfo.map<ILineChartDataPoint>(({ date, weatherMin }) => ({
       x: new Date(date),
-      y: min,
+      y: weatherMin,
       xAxisCalloutData: new Date(date).toDateString(),
 
-      yAxisCalloutData: `${min.toLocaleString('en')} °C`,
+      yAxisCalloutData: `${weatherMin.toLocaleString('en')} °C`,
     })),
   }, {
     legend: 'avg',
     legendShape,
-    data: buildingInfo.map<ILineChartDataPoint>(({ date, weather: { avg } }) => ({
-      x: new Date(date), y: avg,
+    data: buildingInfo.map<ILineChartDataPoint>(({ date, weatherAvg }) => ({
+      x: new Date(date), y: weatherAvg,
       xAxisCalloutData: new Date(date).toDateString(),
-      yAxisCalloutData: `${avg.toLocaleString('en')} °C`,
+      yAxisCalloutData: `${weatherAvg.toLocaleString('en')} °C`,
     })),
   },
     {
       legend: 'max',
       legendShape,
-      data: buildingInfo.map<ILineChartDataPoint>(({ date, weather: { max } }) => ({
-        x: new Date(date), y: max,
+      data: buildingInfo.map<ILineChartDataPoint>(({ date, weatherMax }) => ({
+        x: new Date(date), y: weatherMax,
         xAxisCalloutData: new Date(date).toDateString(),
 
-        yAxisCalloutData: `${max.toLocaleString('en')} °C`,
+        yAxisCalloutData: `${weatherMax.toLocaleString('en')} °C`,
       })),
     },
   ], [buildingInfo]);
@@ -70,7 +70,7 @@ export const BuildingGraphsContainer = ({ buildingInfo, currentChart }: Building
   const precipitationChartData = useMemo<ILineChartPoints[]>(() => [{
     legend: 'precipitation',
     legendShape,
-    data: buildingInfo.map<ILineChartDataPoint>(({ weather: { precipitation }, date }) => ({
+    data: buildingInfo.map<ILineChartDataPoint>(({ precipitation, date }) => ({
       x: new Date(date),
       y: precipitation,
       xAxisCalloutData: new Date(date).toDateString(),

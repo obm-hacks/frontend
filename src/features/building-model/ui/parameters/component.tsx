@@ -9,11 +9,7 @@ import axios from 'axios';
 import { BuildingMetaInfo } from '@/types';
 import { API_URL } from '@/constants';
 
-export interface ParametersFormProps {
-  investments: number;
-  latitude: string;
-  longitude: string;
-}
+export type ParametersFormProps = Omit<BuildingMetaInfo, 'geocoderAddress'>
 
 interface ParametersProps {
   onSubmit: SubmitHandler<ParametersFormProps>;
@@ -32,27 +28,129 @@ export const Parameters: FC<ParametersProps> = ({ onSubmit, buildingId }) => {
     handleSubmit,
     control,
   } = useForm<ParametersFormProps>({
-    defaultValues: {
-      latitude: buildingMetaInfo?.latitude?.toString?.(),
-      longitude: buildingMetaInfo?.longitude?.toString?.(),
-      investments: undefined,
-    },
+    defaultValues: buildingMetaInfo,
   });
 
 
   return <form onSubmit={handleSubmit(onSubmit)}
                className={classes.wrapper}>
+
     <Controller
       control={control}
-      name='investments'
+      name='krValue'
       rules={{
         required: true,
       }}
       render={({ field }) => (<Input type='number'
-                                     label='Investments'
+                                     label='Major renovation'
                                      field={{
                                        ...field,
-                                       size: 'large',
+
+                                       required: true,
+                                     }} />)}
+    />
+
+    <Controller
+      control={control}
+      name='ksValue'
+      rules={{
+        required: true,
+      }}
+      render={({ field }) => (<Input type='number'
+                                     label='Capital construction'
+                                     field={{
+                                       ...field,
+
+                                       required: true,
+                                     }} />)}
+    />
+
+    <Controller
+      control={control}
+      name='trValue'
+      rules={{
+        required: true,
+      }}
+      render={({ field }) => (<Input type='number'
+                                     label='Current renovation'
+                                     field={{
+                                       ...field,
+
+                                       required: true,
+                                     }} />)}
+    />
+
+    <Controller
+      control={control}
+      name='residualValue'
+      rules={{
+        required: true,
+      }}
+      render={({ field }) => (<Input type='number'
+                                     label='Residual'
+                                     field={{
+                                       ...field,
+
+                                       required: true,
+                                     }} />)}
+    />
+
+    <Controller
+      control={control}
+      name='balanceValue'
+      rules={{
+        required: true,
+      }}
+      render={({ field }) => (<Input type='number'
+                                     label='Balance'
+                                     field={{
+                                       ...field,
+
+                                       required: true,
+                                     }} />)}
+    />
+
+    <Controller
+      control={control}
+      name='buildingAge'
+      rules={{
+        required: true,
+      }}
+      render={({ field }) => (<Input type='number'
+                                     label='Building age'
+                                     field={{
+                                       ...field,
+
+                                       required: true,
+                                     }} />)}
+    />
+
+    <Controller
+      control={control}
+      name='buildingSquare'
+      rules={{
+        required: true,
+      }}
+      render={({ field }) => (<Input type='number'
+                                     label='Building square'
+                                     field={{
+                                       ...field,
+
+                                       required: true,
+                                     }} />)}
+    />
+
+    <Controller
+      control={control}
+      name='technicalConditions'
+      rules={{
+        required: true,
+      }}
+      render={({ field }) => (<Input type='text'
+                                     label='Technical conditions'
+                                     field={{
+                                       ...field,
+
                                        required: true,
                                      }} />)}
     />
@@ -63,11 +161,11 @@ export const Parameters: FC<ParametersProps> = ({ onSubmit, buildingId }) => {
       rules={{
         required: true,
       }}
-      render={({ field }) => (<Input type='text'
+      render={({ field }) => (<Input type='number'
                                      label='Latitude'
                                      field={{
                                        ...field,
-                                       size: 'large',
+
                                        required: true,
                                      }} />)}
     />
@@ -78,18 +176,20 @@ export const Parameters: FC<ParametersProps> = ({ onSubmit, buildingId }) => {
       rules={{
         required: true,
       }}
-      render={({ field }) => (<Input type='text'
+      render={({ field }) => (<Input type='number'
                                      label='Longitude'
                                      field={{
                                        ...field,
-                                       size: 'large',
+
                                        required: true,
                                      }} />)}
     />
 
-    <Button type='submit'
-            size='large'
-            appearance='primary'>
+    <Button
+      className={classes.button}
+      type='submit'
+      size='large'
+      appearance='primary'>
       Predict
     </Button>
   </form>;

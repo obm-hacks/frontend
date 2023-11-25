@@ -1,3 +1,2 @@
 export * from './BuildingMetaInfo';
-export * from './BuildingInfo';
-export * from './Weather';
+export * from './TBuildingInfo';

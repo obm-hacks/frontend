@@ -3,11 +3,15 @@ import React, { useCallback } from 'react';
 import { BuildingMetaInfo } from '@/types';
 import {
   createTableColumn,
-  DataGrid, DataGridBody, DataGridCell,
-  DataGridHeader, DataGridHeaderCell, DataGridRow, OnSelectionChangeData,
+  OnSelectionChangeData,
   TableCellLayout,
-  TableColumnDefinition, TableRowId,
+  TableColumnDefinition, TableRowId, useFluent, useScrollbarWidth,
 } from '@fluentui/react-components';
+
+import {
+  DataGrid, DataGridBody, DataGridCell,
+  DataGridHeader, DataGridHeaderCell, DataGridRow, RowRenderer,
+} from '@fluentui-contrib/react-data-grid-react-window';
 
 import classes from './styles.module.css';
 
@@ -37,7 +41,7 @@ const columns: TableColumnDefinition<BuildingMetaInfo>[] = [
   createTableColumn<BuildingMetaInfo>({
     columnId: 'technicalConditions',
     renderHeaderCell: () => {
-      return 'Technical Conditions';
+      return 'Technical conditions';
     },
     renderCell: (item) => {
       return (
@@ -53,7 +57,7 @@ const columns: TableColumnDefinition<BuildingMetaInfo>[] = [
       return a.buildingSquare - b.buildingSquare;
     },
     renderHeaderCell: () => {
-      return 'Square';
+      return 'Building square';
     },
     renderCell: (item) => {
       return (
@@ -69,7 +73,7 @@ const columns: TableColumnDefinition<BuildingMetaInfo>[] = [
       return a.buildingAge - b.buildingAge;
     },
     renderHeaderCell: () => {
-      return 'Age';
+      return 'Building age';
     },
     renderCell: (item) => {
       return (
@@ -83,24 +87,99 @@ const columns: TableColumnDefinition<BuildingMetaInfo>[] = [
     },
   }),
   createTableColumn<BuildingMetaInfo>({
-    columnId: 'Prediction',
+    columnId: 'krValue',
     compare: (a, b) => {
-      return a.prediction - b.prediction;
+      return a.krValue - b.krValue;
     },
     renderHeaderCell: () => {
-      return 'prediction';
+      return 'Major renovation';
     },
     renderCell: (item) => {
       return (
         <TableCellLayout>
-          {`${item.prediction} ₽`}
+          {`${item.krValue} ₽`}
+        </TableCellLayout>
+      );
+    },
+  }),
+  createTableColumn<BuildingMetaInfo>({
+    columnId: 'ksValue',
+    compare: (a, b) => {
+      return a.ksValue - b.ksValue;
+    },
+    renderHeaderCell: () => {
+      return 'Capital construction';
+    },
+    renderCell: (item) => {
+      return (
+        <TableCellLayout>
+          {`${item.ksValue} ₽`}
+        </TableCellLayout>
+      );
+    },
+  }),
+  createTableColumn<BuildingMetaInfo>({
+    columnId: 'trValue',
+    compare: (a, b) => {
+      return a.trValue - b.trValue;
+    },
+    renderHeaderCell: () => {
+      return 'Current renovation';
+    },
+    renderCell: (item) => {
+      return (
+        <TableCellLayout>
+          {`${item.trValue} ₽`}
+        </TableCellLayout>
+      );
+    },
+  }),
+  createTableColumn<BuildingMetaInfo>({
+    columnId: 'residualValue',
+    compare: (a, b) => {
+      return a.residualValue - b.residualValue;
+    },
+    renderHeaderCell: () => {
+      return 'Residual';
+    },
+    renderCell: (item) => {
+      return (
+        <TableCellLayout>
+          {`${item.residualValue} ₽`}
+        </TableCellLayout>
+      );
+    },
+  }),
+  createTableColumn<BuildingMetaInfo>({
+    columnId: 'balanceValue',
+    compare: (a, b) => {
+      return a.balanceValue - b.balanceValue;
+    },
+    renderHeaderCell: () => {
+      return 'Balance';
+    },
+    renderCell: (item) => {
+      return (
+        <TableCellLayout>
+          {`${item.balanceValue} ₽`}
         </TableCellLayout>
       );
     },
   }),
 ];
 
+const renderRow: RowRenderer<BuildingMetaInfo> = ({ item, rowId }, style) => (
+  <DataGridRow<BuildingMetaInfo> key={rowId}
+                                 style={style}>
+    {({ renderCell }) => <DataGridCell>
+      {renderCell(item)}
+    </DataGridCell>}
+  </DataGridRow>
+);
+
 export const Table = ({ buildingsMeta, onBuildingSelect, buildingId }: TableProps) => {
+  const { targetDocument } = useFluent();
+  const scrollbarWidth = useScrollbarWidth({ targetDocument });
   const [selectedRows, setSelectedRows] = React.useState<TableRowId[]>(
     [buildingId],
   );
@@ -121,7 +200,7 @@ export const Table = ({ buildingsMeta, onBuildingSelect, buildingId }: TableProp
     onSelectionChange={onSelectionChange}
     selectionMode='single'
   >
-    <DataGridHeader>
+    <DataGridHeader style={{ paddingRight: scrollbarWidth }}>
       <DataGridRow>
         {({ renderHeaderCell }) => (
           <DataGridHeaderCell className={classes.header}>
@@ -131,18 +210,8 @@ export const Table = ({ buildingsMeta, onBuildingSelect, buildingId }: TableProp
       </DataGridRow>
     </DataGridHeader>
 
-    <DataGridBody<BuildingMetaInfo>>
-      {({ item, rowId }) => (
-        <DataGridRow<BuildingMetaInfo>
-          key={rowId}
-        >
-          {({ renderCell }) => (
-            <DataGridCell>
-              {renderCell(item)}
-            </DataGridCell>
-          )}
-        </DataGridRow>
-      )}
+    <DataGridBody<BuildingMetaInfo> itemSize={50} height={400}>
+      {renderRow}
     </DataGridBody>
   </DataGrid>;
 };

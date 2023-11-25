@@ -1,6 +1,7 @@
 lockfileVersion: 5.4
 
 specifiers:
+  '@fluentui-contrib/react-data-grid-react-window': ^1.1.2
   '@fluentui/react': ^8.112.9
   '@fluentui/react-charting': ^5.19.2
   '@fluentui/react-components': ^9.41.0
@@ -30,6 +31,7 @@ specifiers:
   vite: ^4.4.5
 
 dependencies:
+  '@fluentui-contrib/react-data-grid-react-window': 1.1.2_ow5kfcbqy3beqdijldjjkqhoru
   '@fluentui/react': 8.112.9_w2t4jfowrdz4rm4uaz5cwoqleu
   '@fluentui/react-charting': 5.19.2_5odswzgfxyzn4waf2markwglni
   '@fluentui/react-components': 9.41.0_esc5tpoygm42jvonemrrjnc6k4
@@ -328,6 +330,24 @@ packages:
 
   /@floating-ui/utils/0.1.4:
     resolution: {integrity: sha512-qprfWkn82Iw821mcKofJ5Pk9wgioHicxcQMxx+5zt5GSKoqdWvgG5AxVmpmUUjzTLPVSH5auBrhI93Deayn/DA==}
+    dev: false
+
+  /@fluentui-contrib/react-data-grid-react-window/1.1.2_ow5kfcbqy3beqdijldjjkqhoru:
+    resolution: {integrity: sha512-2Sy/PNZ/+DfJDo70qSeE6fbBF5IW+OzDgfykwmBGuPPC3TCKVyGgJxCWikQlzUgU0dG/ypcAcQTnRZpvxlwKCA==}
+    peerDependencies:
+      '@fluentui/react-components': '>=9.25.1 <10.0.0'
+      '@types/react': '>=16.8.0 <19.0.0'
+      '@types/react-dom': '>=16.8.0 <19.0.0'
+      react: '>=16.8.0 <19.0.0'
+      react-dom: '>=16.8.0 <19.0.0'
+    dependencies:
+      '@fluentui/react-components': 9.41.0_esc5tpoygm42jvonemrrjnc6k4
+      '@swc/helpers': 0.5.2
+      '@types/react': 18.2.23
+      '@types/react-dom': 18.2.8
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+      react-window: 1.8.10_biqbaboplfbrettd7655fr4n2y
     dev: false
 
   /@fluentui/date-time-utilities/8.5.14:
@@ -3831,6 +3851,10 @@ packages:
       remove-accents: 0.4.2
     dev: false
 
+  /memoize-one/5.2.1:
+    resolution: {integrity: sha512-zYiwtZUcYyXKo/np96AGZAckk+FWWsUdJ3cHGGmld7+AhvcWmQyGCYUh1hc4Q/pkOhb65dQR/pqCyK0cOaHz4Q==}
+    dev: false
+
   /merge2/1.4.1:
     resolution: {integrity: sha512-8q7VEgMJW4J8tcfVPy8g09NcQwZdbwFEqhe/WZkoIzjn/3TGDwtOCYtXGxA3O8tPzpczCCDgv+P2P5y00ZJOOg==}
     engines: {node: '>= 8'}
@@ -4118,6 +4142,19 @@ packages:
       dom-helpers: 5.2.1
       loose-envify: 1.4.0
       prop-types: 15.8.1
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    dev: false
+
+  /react-window/1.8.10_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-Y0Cx+dnU6NLa5/EvoHukUD0BklJ8qITCtVEPY1C/nL8wwoZ0b5aEw8Ff1dOVHw7fCzMt55XfJDd8S8W8LCaUCg==}
+    engines: {node: '>8.0.0'}
+    peerDependencies:
+      react: ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0
+      react-dom: ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0
+    dependencies:
+      '@babel/runtime': 7.23.1
+      memoize-one: 5.2.1
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     dev: false
